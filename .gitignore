@@ -1,0 +1,6 @@
+# Exclude build directory.
+build/
+
+# Exclude build files in the deb directory. Only allow the control file.
+deb/cpp-template/usr/**
+deb/*.deb

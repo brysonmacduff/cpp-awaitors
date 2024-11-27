@@ -1,0 +1,6 @@
+Package: cpp-template
+Version: 1.0
+Maintainer: Bryson MacDuff
+Architecture: all
+Description: This debian package is from a c++ template project.
+Depends: libgtest-dev, libgmock-dev, libspdlog-dev
