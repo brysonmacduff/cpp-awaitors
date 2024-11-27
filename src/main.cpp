@@ -33,9 +33,36 @@ void RaiseTimeout()
 Task AwaitorTask()
 {
     std::function<void()> sleep_job = Sleep;
-    co_await Awaitor(sleep_job);
+
+    Awaitor sleep_awaitor = Awaitor(sleep_job);
+    Awaitor::AwaitStatus suspend_result = co_await sleep_awaitor;
+    
+    std::string result;
+    if(suspend_result == Awaitor::AwaitStatus::SUCCESS)
+    {
+        result = "SUCCESS";
+    }
+    else
+    {
+        result = "FAILURE";
+    }
+
+    spdlog::info("AwaitorTask() -> Sleep result: SUCCESS");
+
     std::function<void()> raise_timeout_job = RaiseTimeout;
-    co_await Awaitor(raise_timeout_job);
+    suspend_result = co_await Awaitor(raise_timeout_job);
+
+    if(suspend_result == Awaitor::AwaitStatus::SUCCESS)
+    {
+        result = "SUCCESS";
+    }
+    else
+    {
+        result = "FAILURE";
+    }
+
+    spdlog::info("AwaitorTask() -> RaiseTimeout result: SUCCESS");
+
 }
 
 int main()

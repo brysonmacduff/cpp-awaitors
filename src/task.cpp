@@ -2,33 +2,39 @@
 
 using namespace Concurrency;
 
-Task::Task(std::coroutine_handle<promise_type> ch){
+Task::Task(std::coroutine_handle<promise_type> ch)
+{
     coroutine = ch;
 }
 
-std::suspend_always Task::promise_type::initial_suspend(){
+std::suspend_always Task::promise_type::initial_suspend()
+{
     return {};
 }
 
-Task Task::promise_type::get_return_object(){
-    //std::cout << "Task::promise_type::get_return_object()" << "\n";
+Task Task::promise_type::get_return_object()
+{
     return Task(std::coroutine_handle<promise_type>::from_promise(*this));
 }
 
-std::suspend_never Task::promise_type::final_suspend() noexcept {
+std::suspend_never Task::promise_type::final_suspend() noexcept 
+{
     return {};
 }
 
-std::suspend_always Task::promise_type::yield_value(int code){
+std::suspend_always Task::promise_type::yield_value(int code)
+{
     yield_code = code;
     return {};
 }
 
-int Task::GetYieldCode(){
+int Task::GetYieldCode()
+{
     return coroutine.promise().yield_code;
 }
 
-void Task::promise_type::return_void(){
+void Task::promise_type::return_void()
+{
     return;
 }
 
